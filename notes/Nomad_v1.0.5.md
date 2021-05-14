@@ -8,8 +8,8 @@
 - Download nomad binary & make it executable:
 
 ```bash
-$ wget https://releases.hashicorp.com/nomad/1.0.4/nomad_1.0.4_linux_amd64.zip
-$ unzip nomad_1.0.4_linux_amd64.zip
+$ wget https://releases.hashicorp.com/nomad/1.0.5/nomad_1.0.5_linux_amd64.zip
+$ unzip nomad_1.0.5_linux_amd64.zip
 $ mv nomad /usr/local/bin/
 ```
 
