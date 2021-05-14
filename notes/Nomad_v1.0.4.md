@@ -222,6 +222,188 @@ job "cache" {
 ```
 
 
+#### CNI Plugins in Nomad
+
+Nomad uses CNI plugins when bridge networking is used. To install CNI plugins:
+
+```bash
+$ curl -L -o cni-plugins.tgz https://github.com/containernetworking/plugins/releases/download/v0.8.0/cni-plugins-linux-amd64-v0.8.0.tgz
+$ mkdir -p /opt/cni/bin
+$ tar -C /opt/cni/bin -xzf cni-plugins.tgz
+```
+
+Task with bridge networking
+
+```hcl
+job "clivern" {
+  datacenters = ["dc1"]
+
+  group "services" {
+
+    network {
+      mode = "bridge"
+
+      port "toad0_port" {
+        to = 8080
+      }
+
+      port "toad1_port" {
+        to = 8081
+      }
+    }
+
+    task "toad0" {
+      driver = "docker"
+
+      config {
+        image = "clivern/toad:release-0.2.4"
+
+        labels = {
+          "com.clivern.service" = "toad"
+          "com.clivern.service_type" = "web"
+        }
+
+        ports = ["toad0_port"]
+
+        command = "./toad"
+
+        args = [
+          "--port",
+          "${NOMAD_PORT_toad0_port}",
+        ]
+      }
+
+      env = {
+        IS_STATEFUL    = "false",
+      }
+
+      resources {
+        network {
+          mbits = 10
+        }
+      }
+    }
+
+    task "toad1" {
+      driver = "docker"
+
+      config {
+        image = "clivern/toad:release-0.2.3"
+
+        labels = {
+          "com.clivern.service" = "toad"
+          "com.clivern.service_type" = "web"
+        }
+
+        ports = ["toad1_port"]
+
+        command = "./toad"
+
+        args = [
+          "--port",
+          "${NOMAD_PORT_toad1_port}",
+        ]
+      }
+
+      env = {
+        IS_STATEFUL    = "false",
+      }
+
+      resources {
+        network {
+          mbits = 10
+        }
+      }
+    }
+  }
+}
+```
+
+```hcl
+job "clivern" {
+  datacenters = ["dc1"]
+
+  group "services" {
+
+    network {
+
+      port "toad0_port" {
+        static = 8080
+      }
+
+      port "toad1_port" {
+        static = 8081
+      }
+    }
+
+    task "toad0" {
+      driver = "docker"
+
+      config {
+        image = "clivern/toad:release-0.2.4"
+
+        labels = {
+          "com.clivern.service" = "toad"
+          "com.clivern.service_type" = "web"
+        }
+
+        ports = ["toad0_port"]
+
+        command = "./toad"
+
+        args = [
+          "--port",
+          "${NOMAD_PORT_toad0_port}",
+        ]
+      }
+
+      env = {
+        IS_STATEFUL    = "false",
+      }
+
+      resources {
+        network {
+          mbits = 10
+        }
+      }
+    }
+
+    task "toad1" {
+      driver = "docker"
+
+      config {
+        image = "clivern/toad:release-0.2.3"
+
+        labels = {
+          "com.clivern.service" = "toad"
+          "com.clivern.service_type" = "web"
+        }
+
+        ports = ["toad1_port"]
+
+        command = "./toad"
+
+        args = [
+          "--port",
+          "${NOMAD_PORT_toad1_port}",
+        ]
+      }
+
+      env = {
+        IS_STATEFUL    = "false",
+      }
+
+      resources {
+        network {
+          mbits = 10
+        }
+      }
+    }
+  }
+}
+```
+
+
 #### References:
 
 - [Nomad Docs](https://www.nomadproject.io/docs)
