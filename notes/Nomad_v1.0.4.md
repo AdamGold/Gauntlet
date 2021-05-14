@@ -243,11 +243,11 @@ job "clivern" {
     network {
       mode = "bridge"
 
-      port "toad0_port" {
+      port "toad0_srv" {
         to = 8080
       }
 
-      port "toad1_port" {
+      port "toad1_srv" {
         to = 8081
       }
     }
@@ -263,18 +263,20 @@ job "clivern" {
           "com.clivern.service_type" = "web"
         }
 
-        ports = ["toad0_port"]
+        ports = ["toad0_srv"]
 
         command = "./toad"
 
         args = [
           "--port",
-          "${NOMAD_PORT_toad0_port}",
+          "${NOMAD_PORT_toad0_srv}",
         ]
       }
 
       env = {
         IS_STATEFUL    = "false",
+        TOAD0_ADDR     = "${NOMAD_HOST_ADDR_toad0_srv}",
+        TOAD1_ADDR     = "${NOMAD_HOST_ADDR_toad1_srv}",
       }
 
       resources {
@@ -295,18 +297,20 @@ job "clivern" {
           "com.clivern.service_type" = "web"
         }
 
-        ports = ["toad1_port"]
+        ports = ["toad1_srv"]
 
         command = "./toad"
 
         args = [
           "--port",
-          "${NOMAD_PORT_toad1_port}",
+          "${NOMAD_PORT_toad1_srv}",
         ]
       }
 
       env = {
         IS_STATEFUL    = "false",
+        TOAD0_ADDR     = "${NOMAD_HOST_ADDR_toad0_srv}",
+        TOAD1_ADDR     = "${NOMAD_HOST_ADDR_toad1_srv}",
       }
 
       resources {
@@ -327,11 +331,11 @@ job "clivern" {
 
     network {
 
-      port "toad0_port" {
+      port "toad0_srv" {
         static = 8080
       }
 
-      port "toad1_port" {
+      port "toad1_srv" {
         static = 8081
       }
     }
@@ -347,18 +351,20 @@ job "clivern" {
           "com.clivern.service_type" = "web"
         }
 
-        ports = ["toad0_port"]
+        ports = ["toad0_srv"]
 
         command = "./toad"
 
         args = [
           "--port",
-          "${NOMAD_PORT_toad0_port}",
+          "${NOMAD_PORT_toad0_srv}",
         ]
       }
 
       env = {
         IS_STATEFUL    = "false",
+        TOAD0_ADDR     = "${NOMAD_HOST_ADDR_toad0_srv}",
+        TOAD1_ADDR     = "${NOMAD_HOST_ADDR_toad1_srv}",
       }
 
       resources {
@@ -379,18 +385,20 @@ job "clivern" {
           "com.clivern.service_type" = "web"
         }
 
-        ports = ["toad1_port"]
+        ports = ["toad1_srv"]
 
         command = "./toad"
 
         args = [
           "--port",
-          "${NOMAD_PORT_toad1_port}",
+          "${NOMAD_PORT_toad1_srv}",
         ]
       }
 
       env = {
         IS_STATEFUL    = "false",
+        TOAD0_ADDR     = "${NOMAD_HOST_ADDR_toad0_srv}",
+        TOAD1_ADDR     = "${NOMAD_HOST_ADDR_toad1_srv}",
       }
 
       resources {
