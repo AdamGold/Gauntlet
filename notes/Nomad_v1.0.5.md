@@ -218,7 +218,7 @@ job "cache" {
 
 To fully understand how nomad cluster should look like, please [check this guide!](https://www.nomadproject.io/docs/internals/architecture#high-level-overview)
 
-Assuming we have two servers, one for the nomad server (Leader) and another for the client. Both servers are in `DC1`. The leader server have public IP `$SERVER_PUBLIC_IP` and private IP `$SERVER_PRIVATE_IP`.
+Assuming we have two servers, one for the nomad server (Leader) and another for the client. Both servers are in `DC1`. The leader server has public IP `$SERVER_PUBLIC_IP` and private IP `$SERVER_PRIVATE_IP`.
 
 First we run the leader or the nomad server by following the next steps:
 
